@@ -8,6 +8,7 @@ import {
     Image,
     SafeAreaView
 } from 'react-native';
+import { useSelector } from "react-redux";
 
 const MercadoBox = (props) => {
     const imagem = props.imagem === '' ? 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' : props.image;
@@ -38,48 +39,47 @@ const MercadoCompleto = (props) => {
 }
 
 
-class Home extends React.Component {
-    render() {
-        const MOCK_MERCADO = [
-            { nome: 'Supermercado Extra', imagem: 'https://logodownload.org/wp-content/uploads/2014/12/extra-logo-mercado.jpg' },
-            { nome: 'Supermercado Carrefour', imagem: 'https://thumbs.jusbr.com/imgs.jusbrasil.com/publications/noticias/images/carrefour1464360975.png' },
-            { nome: 'Supermercado União', imagem: 'https://media.glassdoor.com/sqll/2486463/uni%C3%A3o-supermercados-squarelogo-1553581300421.png' },
-            { nome: 'Supermercado Dia', imagem: 'https://na001.leafletcdns.com/com.br/data/12/logo.png' },
-            { nome: 'Supermercado Mercadão', imagem: 'https://www.mercadaoatacadista.com.br/wp-content/uploads/2018/05/logomercadao-1.png' },
-            { nome: 'Supermercado Big', imagem: 'https://iguatemiflorianopolis.com.br/wp-content/uploads/2020/07/SITE__big.jpg' }
-        ]
+const Home = (props) => {
+    const user = useSelector(state => state.userReducer.user);
+    const MOCK_MERCADO = [
+        { nome: 'Supermercado Extra', imagem: 'https://logodownload.org/wp-content/uploads/2014/12/extra-logo-mercado.jpg' },
+        { nome: 'Supermercado Carrefour', imagem: 'https://thumbs.jusbr.com/imgs.jusbrasil.com/publications/noticias/images/carrefour1464360975.png' },
+        { nome: 'Supermercado União', imagem: 'https://media.glassdoor.com/sqll/2486463/uni%C3%A3o-supermercados-squarelogo-1553581300421.png' },
+        { nome: 'Supermercado Dia', imagem: 'https://na001.leafletcdns.com/com.br/data/12/logo.png' },
+        { nome: 'Supermercado Mercadão', imagem: 'https://www.mercadaoatacadista.com.br/wp-content/uploads/2018/05/logomercadao-1.png' },
+        { nome: 'Supermercado Big', imagem: 'https://iguatemiflorianopolis.com.br/wp-content/uploads/2020/07/SITE__big.jpg' }
+    ]
 
-        return (
-            <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
-                <View style={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
-                    <View style={{ alignItems: 'flex-start', flex: 1 }}>
-                        <Text style={{ fontWeight: 'bold', color: 'gray', fontSize: 16 }}>Olá, João Jorge</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-end', flex: 1 }}>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Carrinho')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Meu carrinho</Text></TouchableOpacity>
-                    </View>
+    return (
+        <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
+            <View style={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ alignItems: 'flex-start', flex: 1 }}>
+                    <Text style={{ fontWeight: 'bold', color: 'gray', fontSize: 16 }}>Olá, {user.name || ""}</Text>
                 </View>
-                <ScrollView style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingBottom: 16 }}>
-                    <View style={{ marginTop: 10 }}>
-                        <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Novos Parceiros</Text></View>
-                        <ScrollView horizontal={true} style={{ marginTop: 5, paddingBottom: 10 }}>
-                            {MOCK_MERCADO.map((v) => (
-                                <MercadoBox {...v} {...this.props} />
-                            ))}
-                        </ScrollView>
-                    </View>
-                    <View style={{ marginTop: 20 }}>
-                        <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Perto de você</Text></View>
-                        <ScrollView style={{ marginTop: 5 }}>
-                            {MOCK_MERCADO.map((v) => (
-                                <MercadoCompleto {...v} {...this.props} />
-                            ))}
-                        </ScrollView>
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        );
-    }
+                <View style={{ alignItems: 'flex-end', flex: 1 }}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Carrinho')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Meu carrinho</Text></TouchableOpacity>
+                </View>
+            </View>
+            <ScrollView style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingBottom: 16 }}>
+                <View style={{ marginTop: 10 }}>
+                    <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Novos Parceiros</Text></View>
+                    <ScrollView horizontal={true} style={{ marginTop: 5, paddingBottom: 10 }}>
+                        {MOCK_MERCADO.map((v) => (
+                            <MercadoBox {...v} {...props} />
+                        ))}
+                    </ScrollView>
+                </View>
+                <View style={{ marginTop: 20 }}>
+                    <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Perto de você</Text></View>
+                    <ScrollView style={{ marginTop: 5 }}>
+                        {MOCK_MERCADO.map((v) => (
+                            <MercadoCompleto {...v} {...props} />
+                        ))}
+                    </ScrollView>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({

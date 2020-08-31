@@ -1,6 +1,5 @@
 import * as userApi from "../services/userService";
 import axios from "../services";
-import _ from "lodash";
 
 const TAG = "USER_REDUX";
 
@@ -42,14 +41,9 @@ export const login = payload => async dispatch => {
     try {
         const res = await userApi.login(payload);
 
-        axios.defaults.headers.common["Authorization"] = res.data.token.token;
+        axios.defaults.headers.common["Authorization"] = res.data.token;
 
-        const user = {
-            ...res.data.user,
-            token: res.data.token.token,
-            refresh_token: res.data.token.refresh_token,
-            family: [data.user, ...data.parents]
-        };
+        const user = { ...res.data };
         dispatch({ type: type.LOGIN_SUCCESS, payload: { ...user } });
     } catch (e) {
         console.log(TAG, "error: " + e);
@@ -63,6 +57,7 @@ export const create = payload => async dispatch => {
         console.log(TAG, payload);
         const response = await userApi.create(payload);
         dispatch({ type: type.LOGIN_SUCCESS, payload: response.data });
+        return response.data;
     } catch (e) {
         console.log(TAG, "error: " + e);
         dispatch({ type: type.LOGIN_ERROR, payload: e.response.data.message });
