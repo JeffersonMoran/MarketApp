@@ -1,5 +1,6 @@
 import * as userApi from "../services/userService";
 import axios from "../services";
+import AsyncStorage from "@react-native-community/async-storage"
 
 const TAG = "USER_REDUX";
 
@@ -42,6 +43,7 @@ export const login = payload => async dispatch => {
         const res = await userApi.login(payload);
 
         axios.defaults.headers.common["Authorization"] = res.data.token;
+        await AsyncStorage.setItem('Authorization', res.data.token);
 
         const user = { ...res.data };
         dispatch({ type: type.LOGIN_SUCCESS, payload: { ...user } });

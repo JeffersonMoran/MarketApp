@@ -11,11 +11,23 @@ import {
 import { useDispatch } from "react-redux";
 import { login } from '../../store/user';
 import { email_regex } from '../../utils/regex';
+import AsyncStorage from "@react-native-community/async-storage"
 
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        const valida = async() =>{
+            const token = await AsyncStorage.getItem('Authorization');
+            //Rever se somente validar o token já basta.
+            if(token != ''){
+                props.navigation.navigate('Home');
+            }
+        }
+        valida();
+    }, [])
 
     const makeLogin = () => {
         if (email === "" || !email_regex(email) || password === "") return alert('Ops algum campo esta vazio!');

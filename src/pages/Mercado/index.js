@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     ScrollView,
     Image,
-    SafeAreaView
+    SafeAreaView,
+    Linking
 } from 'react-native';
 
 const MOCK_PRODUTOS = [
@@ -24,8 +25,11 @@ const ProdutoBox = (props) => {
                 <Image source={{ uri: produto.imagem !== '' ? produto.imagem : 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' }} style={{ width: 90, height: 80, resizeMode: 'contain' }} />
             </View>
             <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flex: 2, textAlign: 'left', paddingHorizontal: 10 }}>
-                <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 16 }}>{produto.nome}</Text>
-                <Text style={{ textAlign: 'left', color: 'gray' }}>{produto.descricao}</Text>
+                <View>
+                    <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 16 }}>{produto.nome}</Text>
+                    <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 14 }}>{produto.preco}</Text>
+                </View>
+                <Text style={{ textAlign: 'left', color: 'gray', marginTop: 5 }}>{produto.descricao}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -44,16 +48,49 @@ class Mercado extends React.Component {
             this.setState({ "produtos": products });
         }
 
+        const routeFunction = (route) => {
+            let daddr = encodeURIComponent(route);
+            if (Platform.OS === 'ios') {
+                Linking.openURL(`http://maps.apple.com/?daddr=${daddr}`);
+            } else {
+                Linking.openURL(`http://maps.google.com/?daddr=${daddr}`);
+            }
+        }
+
         return (
             <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
                 <View style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingVertical: 16 }}>
                     <View>
-                        <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>{mercado.nome}</Text></View>
-                        <View><TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite a sua busca...'} onChangeText={filter_products}/></View>
-                        <ScrollView showsVerticalScrollIndicator={false}>
-                            {this.state.produtos.map((v) => <ProdutoBox {...this.props} produto={v} />)}
-                        </ScrollView>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>{mercado.nome}</Text>
+                            <Text style={{ fontSize: 16, color: '#daa520', fontWeight: 'bold' }}>5 Estrelas</Text>
+                        </View>
+                        <View style={{marginTop: 10, flexDirection: 'row'}}>
+                            <View style={{width: 120, backgroundColor: 'red'}}>
+                                <Image style={{width: 120}} />
+                            </View>
+                            <View style={{textAlign: 'right', flex: 1}}>
+                                <View style={{}}>
+                                    <Text style={{fontSize: 14, textAlign: 'right'}}>Av. Brigadeiro Luís Antônio, 2013</Text>
+                                    <Text style={{fontSize: 14, textAlign: 'right'}}>São Paulo - SP</Text>
+                                    <Text style={{fontSize: 14, textAlign: 'right'}}>(11) 3016-8600</Text>
+                                    <Text style={{fontSize: 14, textAlign: 'right'}}>Fecha às 00:00</Text>
+                                </View>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <TouchableOpacity style={{width: 100, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5, marginTop: 5}} onPress={() => routeFunction('Av. Juca Preto, 709 - Jardim Vania, Serra Negra - SP')}>
+                                        <Text style={{fontSize: 16, color: '#FFF', fontWeight: 'bold'}}>Mapa</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
                     </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+                        <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>Produtos do Mercado</Text>
+                    </View>
+                    <View><TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite a sua busca...'} onChangeText={filter_products}/></View>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        {this.state.produtos.map((v, k) => <ProdutoBox {...this.props} key={k} produto={v} />)}
+                    </ScrollView>
                 </View>
             </SafeAreaView>
         );

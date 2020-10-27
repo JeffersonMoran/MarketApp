@@ -64,20 +64,26 @@ const Home = (props) => {
                 <View style={{ marginTop: 10 }}>
                     <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Novos Parceiros</Text></View>
                     <ScrollView horizontal={true} style={{ marginTop: 5, paddingBottom: 10 }}>
-                        {MOCK_MERCADO.map((v) => (
-                            <MercadoBox {...v} {...props} />
+                        {MOCK_MERCADO.map((v, k) => (
+                            <MercadoBox {...v} key={k} {...props} />
                         ))}
                     </ScrollView>
                 </View>
                 <View style={{ marginTop: 20 }}>
-                    <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Perto de você</Text></View>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 5}}>
+                        <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>Perto de você</Text>
+                        <TouchableOpacity onPress={() => props.navigation.navigate('MeusProdutos')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Meus Produtos</Text></TouchableOpacity>
+                    </View>
                     <ScrollView style={{ marginTop: 5 }}>
-                        {MOCK_MERCADO.map((v) => (
-                            <MercadoCompleto {...v} {...props} />
+                        {MOCK_MERCADO.map((v, k) => (
+                            <MercadoCompleto {...v} key={k} {...props} />
                         ))}
                     </ScrollView>
                 </View>
             </ScrollView>
+            <TouchableOpacity style={styles.boxPlus} onPress={() => props.navigation.navigate('AddProduto')}>
+                <Text style={styles.boxPlusText}>+</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -143,6 +149,24 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
         color: 'gray'
+    },
+    boxPlus: {
+        backgroundColor: '#FE595E',
+        height: 50,
+        width: 50, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 60,
+        position: 'absolute',
+        right: 20,
+        bottom: 20
+    },
+    boxPlusText:{
+        color: "#FFF",
+        fontSize: 30,
+        lineHeight: 0,
+        marginTop: -3,
+        marginLeft: 2
     }
 });
 

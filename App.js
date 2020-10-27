@@ -9,6 +9,8 @@ import CadastrarScreen from './src/pages/Cadastrar'
 import HomeScreen from './src/pages/Home'
 import MercadoScreen from './src/pages/Mercado'
 import ProdutoScreen from './src/pages/Produto'
+import AddProdutoScreen from './src/pages/AddProduto'
+import MeusProdutosScreen from './src/pages/MeusProdutos'
 import CarrinhoScreen from './src/pages/Carrinho'
 
 const Stack = createStackNavigator();
@@ -24,6 +26,8 @@ function App() {
             <Stack.Screen name="Home" component={HomeScreen} options={{ headerMode: 'none', headerShown: false }} />
             <Stack.Screen name="Mercado" component={MercadoScreen} options={{ headerMode: 'none', headerShown: false }} />
             <Stack.Screen name="Produto" component={ProdutoScreen} options={{ headerMode: 'none', headerShown: false }} />
+            <Stack.Screen name="AddProduto" component={AddProdutoScreen} options={{ headerMode: 'none', headerShown: false }} />
+            <Stack.Screen name="MeusProdutos" component={MeusProdutosScreen} options={{ headerMode: 'none', headerShown: false }} />
             <Stack.Screen name="Carrinho" component={CarrinhoScreen} options={{ headerMode: 'none', headerShown: false }} />
           </Stack.Navigator>
         </PersistGate>
