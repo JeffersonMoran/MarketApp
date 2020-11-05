@@ -29,6 +29,15 @@ export const myProducts = async () => {
     });
 }
 
+export const listMarkets = async () => {
+    return await axios("markets", {
+        method: "get",
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
+}
+
 export const makeRate = async (data) => {
     return await axios("user/rate", {
         method: "post",
@@ -36,5 +45,14 @@ export const makeRate = async (data) => {
             "Content-type": "application/json"
         },
         data
+    });
+}
+
+export const listProductsMarkets = async (data) => {
+    return await axios("/market/"+data, {
+        method: "get",
+        headers: {
+            "Content-type": "application/json"
+        }
     });
 }

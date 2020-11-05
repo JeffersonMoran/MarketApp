@@ -8,7 +8,7 @@ import {
     Image,
     ScrollView
 } from 'react-native';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from '../../store/user';
 import { email_regex } from '../../utils/regex';
 import AsyncStorage from "@react-native-community/async-storage"
@@ -16,13 +16,14 @@ import AsyncStorage from "@react-native-community/async-storage"
 const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const user = useSelector(state => state.userReducer.user);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         const valida = async() =>{
             const token = await AsyncStorage.getItem('Authorization');
             //Rever se somente validar o token já basta.
-            if(token != ''){
+            if(token && user){
                 props.navigation.navigate('Home');
             }
         }
