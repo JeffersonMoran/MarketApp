@@ -19,3 +19,22 @@ export const login = async (data) => {
         data
     });
 }
+
+export const myProducts = async () => {
+    return await axios("user/products", {
+        method: "get",
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
+}
+
+export const makeRate = async (data) => {
+    return await axios("user/rate", {
+        method: "post",
+        headers: {
+            "Content-type": "application/json"
+        },
+        data
+    });
+}

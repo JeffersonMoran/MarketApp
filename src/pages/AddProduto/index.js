@@ -78,7 +78,7 @@ const AddProduto = (props) => {
                   style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }}
                   onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
                 >
-                  {mercados.map((m) => (<Picker.Item label={m.name} value={m._id} />))}
+                  {mercados.map((m, k) => (<Picker.Item label={m.name} value={m._id} />))}
                 </Picker>
               </View>
               <View style={{marginTop: 10}}>
