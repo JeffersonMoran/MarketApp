@@ -161,9 +161,9 @@ export const listaProdutosMercados = payload => async dispatch => {
     }
 };
 
-export const adicionarProdutoCarrinho = payload => async dispatch => {
+export const createProductCarrinho = payload => async dispatch => {
     try {
-        await userApi.adicionarProdutoCarrinho(payload);
+        await productApi.adicionarProdutoCarrinho(payload);
         dispatch({ type: type.ADICIONA_CARRINHO, payload });
     } catch (e) {
     }
@@ -171,7 +171,7 @@ export const adicionarProdutoCarrinho = payload => async dispatch => {
 
 export const removeProdutoCarrinho = payload => async dispatch => {
     try {
-        await userApi.removeProdutoCarrinho(payload);
+        await productApi.removeProdutoCarrinho(payload);
         dispatch({ type: type.REMOVE_CARRINHO, payload });
     } catch (e) {
     }
@@ -179,7 +179,7 @@ export const removeProdutoCarrinho = payload => async dispatch => {
 
 export const listaCarrinho = payload => async dispatch => {
     try {
-        const response = await userApi.listaCarrinho(payload);
+        const response = await productApi.listaCarrinho(payload);
         dispatch({ type: type.LIST_CARRINHO, payload: response.data });
     } catch (e) {
     }
