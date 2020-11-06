@@ -13,12 +13,18 @@ export const type = {
     CREATE_ERROR: "CREATE_ERROR",
     CREATE_PRODUCT_ERROR: "CREATE_PRODUCT_ERROR",
     CREATE_PRODUCT_SUCCESS: "CREATE_SUCCESS_ERROR",
+    PRODUTOS_GET: "PRODUTOS_GET",
+    MERCADOS_GET: "MERCADOS_GET",
+    PRODUTOS_MERCADOS_GET: "PRODUTOS_MERCADOS_GET"
 };
 
 const initialState = {
     loading: false,
-    user: null,
-    product: null
+    produtos: [],
+    mercados: [],
+    produtos_mercado: [],
+    product: null,
+    user: null
 };
 
 export default (userReducer = (state = initialState, action) => {
@@ -37,11 +43,30 @@ export default (userReducer = (state = initialState, action) => {
             };
 
         case type.CREATE_PRODUCT:
-                return {
-                    ...state,
-                    loading: false,
-                    user: action.payload
-                };
+            return {
+                ...state,
+                loading: false,
+                product: action.payload
+            };
+
+        case type.PRODUTOS_GET:
+            return {
+                ...state,
+                produtos: action.payload
+            };
+
+        case type.MERCADOS_GET:
+            return {
+                ...state,
+                mercados: action.payload
+            };
+
+        case type.PRODUTOS_MERCADOS_GET:
+            return {
+                ...state,
+                produtos_mercado: action.payload
+            };
+
         default:
             return state;
     }
@@ -59,7 +84,7 @@ export const login = payload => async dispatch => {
         const user = { ...res.data };
         dispatch({ type: type.LOGIN_SUCCESS, payload: { ...user } });
     } catch (e) {
-        console.log(TAG, "error: " + e);
+        // console.log(TAG, "error: " + e);
         dispatch({ type: type.LOGIN_ERROR, payload: e.response.data.message });
     }
 };
@@ -67,12 +92,12 @@ export const login = payload => async dispatch => {
 export const create = payload => async dispatch => {
     try {
         dispatch({ type: type.LOGIN_LOADING });
-        console.log(TAG, payload);
+        // console.log(TAG, payload);
         const response = await userApi.create(payload);
         dispatch({ type: type.LOGIN_SUCCESS, payload: response.data });
         return response.data;
     } catch (e) {
-        console.log(TAG, "error: " + e);
+        // console.log(TAG, "error: " + e);
         dispatch({ type: type.LOGIN_ERROR, payload: e.response.data.message });
     }
 };
@@ -88,5 +113,29 @@ export const createProduct = (id, payload) => async dispatch => {
     } catch (e) {
         console.log(TAG, "error: " + e);
         dispatch({ type: type.CREATE_PRODUCT_ERROR, payload: e.response.data.message });
+    }
+}
+
+export const meusProdutos = payload => async dispatch => {
+    try {
+        const response = await userApi.myProducts();
+        dispatch({ type: type.PRODUTOS_GET, payload: response.data });
+    } catch (e) {
+    }
+};
+
+export const listaMercados = payload => async dispatch => {
+    try {
+        const response = await userApi.listMarkets();
+        dispatch({ type: type.MERCADOS_GET, payload: response.data });
+    } catch (e) {
+    }
+};
+
+export const listaProdutosMercados = payload => async dispatch => {
+    try {
+        const response = await userApi.listProductsMarkets(payload);
+        dispatch({ type: type.PRODUTOS_MERCADOS_GET, payload: response.data });
+    } catch (e) {
     }
 };

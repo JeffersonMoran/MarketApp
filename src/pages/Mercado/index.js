@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
     View,
@@ -10,6 +10,8 @@ import {
     SafeAreaView,
     Linking
 } from 'react-native';
+import { useSelector, useDispatch } from "react-redux";
+import { listaProdutosMercados } from '../../store/user';
 
 const MOCK_PRODUTOS = [
     { nome: 'Nescau', descricao: 'Achocolatado em Pó Chocolate Nescau 2.0', imagem: 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' },
@@ -35,66 +37,68 @@ const ProdutoBox = (props) => {
     );
 }
 
-class Mercado extends React.Component {
-    state = {
-        produtos: MOCK_PRODUTOS
+const Mercado = (props) => {
+    const { mercado } = props.route.params;
+    const produtos_mercado = useSelector(state => state.userReducer.produtos_mercado);
+    const [listaFiltrada, setListaFiltrada] = useState([]);
+    const dispatch = useDispatch();
+
+    console.log('mercado', produtos_mercado)
+
+    useEffect(() => { 
+        dispatch(listaProdutosMercados(mercado._id))
+        setListaFiltrada(produtos_mercado.products);
+    }, []);
+    
+    const filter_products = (text) => {
+        let products = produtos_mercado.products.filter(product => product.nome.toLowerCase().includes(text.toLowerCase()));
+        if (text === "") products = produtos_mercado.products;
+        setListaFiltrada(products);
     }
 
-    render() {
-        const { mercado } = this.props.route.params;
-        const filter_products = (text) => {
-            let products = MOCK_PRODUTOS.filter(product => product.nome.toLowerCase().includes(text.toLowerCase()));
-            if (text === "") products = MOCK_PRODUTOS;
-            this.setState({ "produtos": products });
+    const routeFunction = (route) => {
+        let daddr = encodeURIComponent(route);
+        if (Platform.OS === 'ios') {
+            Linking.openURL(`http://maps.apple.com/?daddr=${daddr}`);
+        } else {
+            Linking.openURL(`http://maps.google.com/?daddr=${daddr}`);
         }
+    }
 
-        const routeFunction = (route) => {
-            let daddr = encodeURIComponent(route);
-            if (Platform.OS === 'ios') {
-                Linking.openURL(`http://maps.apple.com/?daddr=${daddr}`);
-            } else {
-                Linking.openURL(`http://maps.google.com/?daddr=${daddr}`);
-            }
-        }
-
-        return (
-            <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
-                <View style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingVertical: 16 }}>
-                    <View>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>{mercado.nome}</Text>
-                            <Text style={{ fontSize: 16, color: '#daa520', fontWeight: 'bold' }}>5 Estrelas</Text>
+    return (
+        <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingVertical: 16 }}>
+                <View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>{mercado.nome}</Text>
+                        <Text style={{ fontSize: 16, color: '#daa520', fontWeight: 'bold' }}>{produtos_mercado.rates} {produtos_mercado.rates == 1?'Estrala':'Estrelas'}</Text>
+                    </View>
+                    <View style={{marginTop: 10, flexDirection: 'row'}}>
+                        <View style={{width: 120, backgroundColor: 'red'}}>
+                            <Image style={{width: 120, height: 80}} />
                         </View>
-                        <View style={{marginTop: 10, flexDirection: 'row'}}>
-                            <View style={{width: 120, backgroundColor: 'red'}}>
-                                <Image style={{width: 120}} />
+                        <View style={{textAlign: 'right', flex: 1, paddingLeft: 10}}>
+                            <View style={{}}>
+                                <Text style={{fontSize: 14, textAlign: 'right'}}>{mercado.endereco}</Text>
                             </View>
-                            <View style={{textAlign: 'right', flex: 1}}>
-                                <View style={{}}>
-                                    <Text style={{fontSize: 14, textAlign: 'right'}}>Av. Brigadeiro Luís Antônio, 2013</Text>
-                                    <Text style={{fontSize: 14, textAlign: 'right'}}>São Paulo - SP</Text>
-                                    <Text style={{fontSize: 14, textAlign: 'right'}}>(11) 3016-8600</Text>
-                                    <Text style={{fontSize: 14, textAlign: 'right'}}>Fecha às 00:00</Text>
-                                </View>
-                                <View style={{alignItems: 'flex-end'}}>
-                                    <TouchableOpacity style={{width: 100, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5, marginTop: 5}} onPress={() => routeFunction('Av. Juca Preto, 709 - Jardim Vania, Serra Negra - SP')}>
-                                        <Text style={{fontSize: 16, color: '#FFF', fontWeight: 'bold'}}>Mapa</Text>
-                                    </TouchableOpacity>
-                                </View>
+                            <View style={{alignItems: 'flex-end'}}>
+                                <TouchableOpacity style={{width: 100, justifyContent: 'flex-end', alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5, marginTop: 5}} onPress={() => routeFunction('Av. Juca Preto, 709 - Jardim Vania, Serra Negra - SP')}>
+                                    <Text style={{fontSize: 16, color: '#FFF', fontWeight: 'bold'}}>Mapa</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
-                        <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>Produtos do Mercado</Text>
-                    </View>
-                    <View><TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite a sua busca...'} onChangeText={filter_products}/></View>
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        {this.state.produtos.map((v, k) => <ProdutoBox {...this.props} key={k} produto={v} />)}
-                    </ScrollView>
                 </View>
-            </SafeAreaView>
-        );
-    }
+                <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 30}}>
+                    <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>Produtos do Mercado</Text>
+                </View>
+                <View><TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite a sua busca...'} onChangeText={filter_products}/></View>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    {listaFiltrada.map((v, k) => <ProdutoBox {...props} key={k} produto={v} />)}
+                </ScrollView>
+            </View>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({

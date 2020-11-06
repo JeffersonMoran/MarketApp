@@ -11,13 +11,14 @@ const TAG = "SERVICE";
 instance.interceptors.request.use(
     async config => {
         const token = await AsyncStorage.getItem('Authorization');
-        console.log('token', token);
         if (token) {
             config.headers['Authorization'] = 'Bearer ' + token;
         }
+        // console.log('config', config)
         return config;
     },
     error => {
+        // console.log('error', error)
         Promise.reject(error)
     }
 );
