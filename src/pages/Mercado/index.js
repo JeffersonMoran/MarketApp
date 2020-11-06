@@ -47,7 +47,8 @@ const Mercado = (props) => {
 
     useEffect(() => { 
         dispatch(listaProdutosMercados(mercado._id))
-        setListaFiltrada(produtos_mercado.products);
+
+        if (produtos_mercado.products) setListaFiltrada(produtos_mercado.products);
     }, []);
     
     const filter_products = (text) => {
@@ -71,7 +72,7 @@ const Mercado = (props) => {
                 <View>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', flex: 1 }}>{mercado.nome}</Text>
-                        <Text style={{ fontSize: 16, color: '#daa520', fontWeight: 'bold' }}>{produtos_mercado.rates} {produtos_mercado.rates == 1?'Estrala':'Estrelas'}</Text>
+                        <Text style={{ fontSize: 16, color: '#daa520', fontWeight: 'bold' }}>{produtos_mercado ? produtos_mercado.rates : 0} {produtos_mercado && produtos_mercado.rates == 1?'Estrala':'Estrelas'}</Text>
                     </View>
                     <View style={{marginTop: 10, flexDirection: 'row'}}>
                         <View style={{width: 120, backgroundColor: 'red'}}>

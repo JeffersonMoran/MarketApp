@@ -26,19 +26,19 @@ const AddProduto = (props) => {
 
   const adicionaProduto = () => {
     if (nome === "" || preco === "" || descricao === "" || avatarSource === "") return alert('Ops algum campo esta vazio!');
-    dispatch(createProduct("5f976a87a1298103d9bb9ab2", { nome, preco, descricao, imagem: avatarSource }));
+    dispatch(createProduct("5fa49a38a0abd108cc6178bc", { nome, preco, descricao, imagem: avatarSource }));
     alert('Produto criado com sucesso!')
     props.navigation.navigate('Home');
   }
 
   const mercados = [
-    { "_id": "5f976a87a1298103d9bb9ab2", "nome": "Supermercado Carrefour" },
-    { "_id": "5f976a87a1298103d9bb9ab3", "nome": "Supermercado União" },
-    { "_id": "5f976a87a1298103d9bb9ab4", "nome": "Supermercado Dia" },
-    { "_id": "5f976a87a1298103d9bb9ab5", "nome": "Supermercado Mendonça" },
-    { "_id": "5f976a87a1298103d9bb9ab6", "nome": "Supermercado Mercadão" },
-    { "_id": "5f976a87a1298103d9bb9ab7", "nome": "Supermercado Big" },
-    { "_id": "5f976a87a1298103d9bb9ab1", "nome": "Supermercado Extra" }
+    { "_id": "5fa49a38a0abd108cc6178bc", "nome": "Supermercado Extra" },
+    { "_id": "5fa49a38a0abd108cc6178bd", "nome": "Supermercado Carrefour" },
+    { "_id": "5fa49a38a0abd108cc6178be", "nome": "Supermercado União" },
+    { "_id": "5fa49a38a0abd108cc6178bf", "nome": "Supermercado Dia" },
+    { "_id": "5fa49a38a0abd108cc6178c0", "nome": "Supermercado Mendonça" },
+    { "_id": "5fa49a38a0abd108cc6178c1", "nome": "Supermercado Mercadão" },
+    { "_id": "5fa49a38a0abd108cc6178c2", "nome": "Supermercado Big" }
   ]
 
   const options = {

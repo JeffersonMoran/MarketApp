@@ -72,7 +72,7 @@ const Home = (props) => {
                         <TouchableOpacity onPress={() => props.navigation.navigate('MeusProdutos')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Meus Produtos</Text></TouchableOpacity>
                     </View>
                     <ScrollView style={{ marginTop: 5 }}>
-                        {mercados.map((v, k) => (
+                        {mercados&&mercados.map((v, k) => (
                             <MercadoCompleto {...v} key={k} {...props} />
                         ))}
                     </ScrollView>
