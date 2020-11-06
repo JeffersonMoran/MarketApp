@@ -56,3 +56,12 @@ export const listProductsMarkets = async (data) => {
         }
     });
 }
+
+export const listainfoCarrinho = async () => {
+    return await axios("user/buy-list", {
+        method: "get",
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -9,6 +9,8 @@ import {
     Image,
     SafeAreaView
 } from 'react-native';
+import { useSelector, useDispatch } from "react-redux";
+import { listaCarrinho } from '../../store/user';
 
 const MOCK_PRODUTOS_MERCADO = [
     {
@@ -35,7 +37,8 @@ const MOCK_PRODUTOS_MERCADO = [
 ]
 
 const ProdutoBox = (props) => {
-    const imagem = props.imagem === '' ? 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' : props.image;
+    const imagem = props.produto.imagem;
+    console.log('imagem', imagem)
     return (
         <View style={styles.produtoCarrinho}>
             <View style={{ marginRight: 20, width: 140, height: 100, justifyContent: 'center', alignItems: 'center', width: '100%', flexDirection: 'row' }}>
@@ -62,28 +65,31 @@ const ProdutoBox = (props) => {
 }
 
 
-class Carrinho extends React.Component {
-    state = {
-        produtos_mercados: MOCK_PRODUTOS_MERCADO
-    }
+const Carrinho = (props) => {
+    const carrinhos = useSelector(state => state.userReducer.carrinhos);
+    const dispatch = useDispatch();
 
-    render() {
-        const { produtos_mercados } = this.state;
+    useEffect(() => {
+        console.log('entrou');
+        dispatch(listaCarrinho())
+    }, []);
 
-        return (
-            <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
-                <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
-                    <View style={{ justifyConter: 'center', alignItems: 'center' }}><Text style={{ fontSize: 20, color: '#FE595E', fontWeight: 'bold', marginBottom: 10 }}>Meu Carrinho</Text></View>
-                    <ScrollView style={{ backgroundColor: '#F6F6F6' }} showsVerticalScrollIndicator={false}>
-                        {produtos_mercados.map((mercado) => {
-                            <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', marginBottom: 10 }}>{mercado.nome_mercado}</Text></View>
-                            mercado.produtos.map((v) => <ProdutoBox {...this.props} produto={v} />)
-                        })}
-                    </ScrollView>
-                </View>
-            </SafeAreaView>
-        );
-    }
+    console.log('carrinhos', carrinhos)
+
+    return (
+        <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
+            <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
+                <View style={{ justifyConter: 'center', alignItems: 'center' }}><Text style={{ fontSize: 20, color: '#FE595E', fontWeight: 'bold', marginBottom: 10 }}>Meu Carrinho</Text></View>
+                <ScrollView style={{ backgroundColor: '#F6F6F6' }} showsVerticalScrollIndicator={false}>
+                    {/* {carrinhos.map((mercado) => {
+                        <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold', marginBottom: 10 }}>{mercado.nome_mercado}</Text></View>
+                        mercado.produtos.map((v) => <ProdutoBox {...this.props} produto={v} />)
+                    })} */}
+                    {carrinhos.map((v) => <ProdutoBox {...props} produto={v} />)}
+                </ScrollView>
+            </View>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({

@@ -31,11 +31,12 @@ export const removerDoCarrinho = async (id, data) => {
 }
 
 export const listCarrinho = async () => {
-    return await axios(`user/buy-list`, {
+    console.log('here service');
+    const data =  await axios(`user/buy-list`, {
         method: "get",
         headers: {
             "Content-type": "application/json"
-        },
-        data
+        }
     });
+    console.log('log', data)
 }

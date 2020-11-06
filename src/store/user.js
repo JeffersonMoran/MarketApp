@@ -179,8 +179,10 @@ export const removeProdutoCarrinho = payload => async dispatch => {
 
 export const listaCarrinho = payload => async dispatch => {
     try {
-        const response = await userApi.listaCarrinho(payload);
+        const response = await userApi.listainfoCarrinho();
+        console.log('response', response)
         dispatch({ type: type.LIST_CARRINHO, payload: response.data });
     } catch (e) {
+        console.log('erro', e);
     }
 };
