@@ -1,4 +1,5 @@
 import * as userApi from "../services/userService";
+import * as productApi from "../services/productService";
 import axios from "../services";
 import AsyncStorage from "@react-native-community/async-storage"
 
@@ -10,11 +11,14 @@ export const type = {
     LOGIN_ERROR: "LOGIN_ERROR",
     CREATE_SUCCESS: "CREATE_SUCCESS",
     CREATE_ERROR: "CREATE_ERROR",
+    CREATE_PRODUCT_ERROR: "CREATE_PRODUCT_ERROR",
+    CREATE_PRODUCT_SUCCESS: "CREATE_SUCCESS_ERROR",
 };
 
 const initialState = {
     loading: false,
-    user: null
+    user: null,
+    product: null
 };
 
 export default (userReducer = (state = initialState, action) => {
@@ -31,6 +35,13 @@ export default (userReducer = (state = initialState, action) => {
                 loading: false,
                 user: action.payload
             };
+
+        case type.CREATE_PRODUCT:
+                return {
+                    ...state,
+                    loading: false,
+                    user: action.payload
+                };
         default:
             return state;
     }
@@ -63,5 +74,19 @@ export const create = payload => async dispatch => {
     } catch (e) {
         console.log(TAG, "error: " + e);
         dispatch({ type: type.LOGIN_ERROR, payload: e.response.data.message });
+    }
+};
+
+export const createProduct = (id, payload) => async dispatch => {
+    try {
+        console.log(TAG, payload);
+        const response = await productApi.createProduct(id, payload);
+
+        console.log(response);
+        dispatch({ type: type.CREATE_PRODUCT_SUCCESS, payload: response.data });
+        return response.data;
+    } catch (e) {
+        console.log(TAG, "error: " + e);
+        dispatch({ type: type.CREATE_PRODUCT_ERROR, payload: e.response.data.message });
     }
 };
