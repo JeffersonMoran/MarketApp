@@ -9,8 +9,8 @@ import {
   Image,
   SafeAreaView
 } from 'react-native';
-import { createProduct } from '../../store/user';
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { createProductCarrinho } from '../../store/user';
 
 const ProdutoBox = (props) => {
   return (
@@ -29,12 +29,18 @@ const ProdutoBox = (props) => {
 class Produto extends React.Component {
   render() {
     const { produto } = this.props.route.params;
+    const dispatch = useDispatch();
+
+    const makeLogin = async () => {
+      if (email === "" || !email_regex(email) || password === "") return alert('Ops algum campo esta vazio!');
+      await dispatch(createProductCarrinho({ email, password }))
+  }
     
     return (
       <SafeAreaView style={{ backgroundColor: '#FFF', flex: 1 }}>
         <ScrollView style={{ flex: 1, backgroundColor: '#FFF', paddingHorizontal: 16, paddingVertical: 16 }}>
           <View>
-            <View style={{ backgroundColor: 'white' }}><Image source={{ uri: produto.imagem !== '' ? produto.imagem : 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' }} style={{ width: '100%', height: 250, resizeMode: 'contain' }} /></View>
+            <View style={{ backgroundColor: 'white' }}><Image source={{ uri: produto.imagem }} style={{ width: '100%', height: 250, resizeMode: 'contain' }} /></View>
             <View><Text style={{ fontSize: 20, color: '#FE595E', fontWeight: 'bold', marginTop: 10 }}>{produto.nome}</Text></View>
             <View><Text style={{ fontSize: 16, marginTop: 5, color: '#8e8e8e' }}>{produto.descricao}</Text></View>
             <View style={{ flexDirection: 'row', marginTop: 20 }}>
@@ -44,7 +50,7 @@ class Produto extends React.Component {
                 <TouchableOpacity style={{ backgroundColor: "#FE595E", width: 40, height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#FFF', fontSize: 20, lineHeight: 20 }}>+</Text></TouchableOpacity>
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end', flex: 1 }}>
-                <TouchableOpacity style={{ backgroundColor: "green", width: 160, height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#FFF', fontSize: 16, lineHeight: 20 }}>ADICIONAR</Text></TouchableOpacity>
+                <TouchableOpacity style={{ backgroundColor: "green", width: 160, height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }} onPress={() => makeLogin()}><Text style={{ color: '#FFF', fontSize: 16, lineHeight: 20 }}>ADICIONAR</Text></TouchableOpacity>
               </View>
             </View>
           </View>
