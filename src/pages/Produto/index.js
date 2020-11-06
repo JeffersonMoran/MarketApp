@@ -9,6 +9,8 @@ import {
   Image,
   SafeAreaView
 } from 'react-native';
+import { createProduct } from '../../store/user';
+import { useSelector } from "react-redux";
 
 const ProdutoBox = (props) => {
   return (

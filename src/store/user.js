@@ -15,6 +15,9 @@ export const type = {
     CREATE_PRODUCT_SUCCESS: "CREATE_SUCCESS_ERROR",
     PRODUTOS_GET: "PRODUTOS_GET",
     MERCADOS_GET: "MERCADOS_GET",
+    LIST_CARRINHO: "LIST_CARRINHO",
+    ADICIONA_CARRINHO: "ADICIONA_CARRINHO",
+    REMOVE_CARRINHO: "REMOVE_CARRINHO",
     PRODUTOS_MERCADOS_GET: "PRODUTOS_MERCADOS_GET"
 };
 
@@ -23,6 +26,7 @@ const initialState = {
     produtos: [],
     mercados: [],
     produtos_mercado: [],
+    carrinhos: [],
     product: null,
     user: null
 };
@@ -67,6 +71,23 @@ export default (userReducer = (state = initialState, action) => {
                 produtos_mercado: action.payload
             };
 
+        case type.LIST_CARRINHO:
+            return {
+                ...state,
+                carrinhos: action.payload
+            };
+
+        case type.ADICIONA_CARRINHO:
+            return {
+                ...state,
+                carrinhos: [...state.carrinhos, action.payload]
+            };
+
+        case type.REMOVE_CARRINHO:
+            return {
+                ...state,
+                carrinhos: state.carrinhos.filter(product => product._id != action.payload._id)
+            };
         default:
             return state;
     }
@@ -136,6 +157,30 @@ export const listaProdutosMercados = payload => async dispatch => {
     try {
         const response = await userApi.listProductsMarkets(payload);
         dispatch({ type: type.PRODUTOS_MERCADOS_GET, payload: response.data });
+    } catch (e) {
+    }
+};
+
+export const adicionarProdutoCarrinho = payload => async dispatch => {
+    try {
+        await userApi.adicionarProdutoCarrinho(payload);
+        dispatch({ type: type.ADICIONA_CARRINHO, payload });
+    } catch (e) {
+    }
+};
+
+export const removeProdutoCarrinho = payload => async dispatch => {
+    try {
+        await userApi.removeProdutoCarrinho(payload);
+        dispatch({ type: type.REMOVE_CARRINHO, payload });
+    } catch (e) {
+    }
+};
+
+export const listaCarrinho = payload => async dispatch => {
+    try {
+        const response = await userApi.listaCarrinho(payload);
+        dispatch({ type: type.LIST_CARRINHO, payload: response.data });
     } catch (e) {
     }
 };

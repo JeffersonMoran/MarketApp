@@ -15,6 +15,7 @@ import ImagePicker from 'react-native-image-picker';
 
 import { useDispatch } from "react-redux";
 import { createProduct } from '../../store/user';
+import { useSelector } from "react-redux";
 
 const AddProduto = (props) => {
   const [selectedValue, setSelectedValue] = React.useState("");
@@ -31,15 +32,7 @@ const AddProduto = (props) => {
     props.navigation.navigate('Home');
   }
 
-  const mercados = [
-    { "_id": "5fa49a38a0abd108cc6178bc", "nome": "Supermercado Extra" },
-    { "_id": "5fa49a38a0abd108cc6178bd", "nome": "Supermercado Carrefour" },
-    { "_id": "5fa49a38a0abd108cc6178be", "nome": "Supermercado União" },
-    { "_id": "5fa49a38a0abd108cc6178bf", "nome": "Supermercado Dia" },
-    { "_id": "5fa49a38a0abd108cc6178c0", "nome": "Supermercado Mendonça" },
-    { "_id": "5fa49a38a0abd108cc6178c1", "nome": "Supermercado Mercadão" },
-    { "_id": "5fa49a38a0abd108cc6178c2", "nome": "Supermercado Big" }
-  ]
+  const mercados = useSelector(state => state.userReducer.mercados);
 
   const options = {
     title: 'Select Avatar',
@@ -70,15 +63,23 @@ const AddProduto = (props) => {
       }
     });
   }
+  console.log('aqui', avatarSource);
   return (
     <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingVertical: 16 }}>
         <View>
           <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Adicionar Produto</Text></View>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <TouchableOpacity onPress={() => showPickerImage()} style={styles.boxImage}>
-              <Image source={avatarSource} />
-            </TouchableOpacity>
+            {
+              avatarSource === "" ?
+                <TouchableOpacity onPress={() => showPickerImage()} style={styles.boxImage}>
+                  <Image source={avatarSource} />
+                </TouchableOpacity>
+                :
+                <View>
+                  <Image source={{ uri: avatarSource }} style={styles.boxImage} />
+                </View>
+            }
             <View>
               <TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite o nome do produto...'}
                 value={nome}

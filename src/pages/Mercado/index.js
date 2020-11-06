@@ -76,7 +76,7 @@ const Mercado = (props) => {
                     </View>
                     <View style={{marginTop: 10, flexDirection: 'row'}}>
                         <View style={{width: 120, backgroundColor: 'red'}}>
-                            <Image style={{width: 120, height: 80}} />
+                            <Image source={{ uri: mercado.imagem !== '' ? mercado.imagem : 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' }} style={{width: 120, height: 80}} />
                         </View>
                         <View style={{textAlign: 'right', flex: 1, paddingLeft: 10}}>
                             <View style={{}}>

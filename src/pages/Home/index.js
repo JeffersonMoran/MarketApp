@@ -12,22 +12,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { listaMercados } from '../../store/user';
 
 const MercadoBox = (props) => {
-    const imagem = props.imagem === '' ? 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' : props.image;
     return (
         <View style={styles.boxItemParceiro}>
             <TouchableOpacity onPress={() => props.navigation.navigate('Mercado', { mercado: props })} style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Image source={{ uri: imagem }} style={{ width: 105, height: 50 }} />
+                <Image source={{ uri: props.imagem }} style={{ width: 105, height: 50 }} />
             </TouchableOpacity>
         </View>
     );
 }
 
 const MercadoCompleto = (props) => {
-    const imagem = props.imagem === '' ? 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' : props.image;
     return (
         <TouchableOpacity onPress={() => props.navigation.navigate('Mercado', { mercado: props })} style={styles.boxMercado}>
             <View style={{ justifyContent: 'center', alignItems: 'center', width: 120 }}>
-                <Image source={{ uri: imagem }} style={{ width: 105, height: 50 }} />
+                <Image source={{ uri: props.imagem }} style={{ width: 105, height: 50 }} />
             </View>
             <View style={{ marginLeft: 10, flex: 1 }}>
                 <Text style={{ fontSize: 16, color: 'gray', fontWeight: 'bold' }}>{props.nome}</Text>

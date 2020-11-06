@@ -30,9 +30,9 @@ const Login = (props) => {
         valida();
     }, [])
 
-    const makeLogin = () => {
+    const makeLogin = async () => {
         if (email === "" || !email_regex(email) || password === "") return alert('Ops algum campo esta vazio!');
-        dispatch(login({ email, password }))
+        await dispatch(login({ email, password }))
         props.navigation.navigate('Home');
     }
 
