@@ -22,7 +22,11 @@ const Login = (props) => {
     React.useEffect(() => {
         console.log('entrou', user)
         valida();
-    }, [])
+    }, []);
+
+    React.useEffect(() => {
+        valida();
+    }, [user]);
 
     const valida = async() =>{
         const token = await AsyncStorage.getItem('Authorization');
@@ -35,7 +39,6 @@ const Login = (props) => {
     const makeLogin = async () => {
         if (email === "" || !email_regex(email) || password === "") return alert('Ops algum campo esta vazio!');
         await dispatch(login({ email, password }))
-        valida();
     }
 
     return (
