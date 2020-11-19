@@ -54,7 +54,7 @@ const Home = (props) => {
         <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
             <View style={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ alignItems: 'flex-start', flex: 1 }}>
-                    <Text style={{ fontWeight: 'bold', color: 'gray', fontSize: 16 }}>Olá, {user.name || ""}</Text>
+                    <Text style={{ fontWeight: 'bold', color: 'gray', fontSize: 16 }}>Olá, {(user && user.name) || ""}</Text>
                 </View>
                 <View style={{ alignItems: 'flex-end', flex: 1 }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate('Carrinho')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Meu carrinho</Text></TouchableOpacity>

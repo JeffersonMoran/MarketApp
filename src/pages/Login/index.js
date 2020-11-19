@@ -20,20 +20,22 @@ const Login = (props) => {
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        const valida = async() =>{
-            const token = await AsyncStorage.getItem('Authorization');
-            //Rever se somente validar o token já basta.
-            if(token && user){
-                props.navigation.navigate('Home');
-            }
-        }
+        console.log('entrou', user)
         valida();
     }, [])
+
+    const valida = async() =>{
+        const token = await AsyncStorage.getItem('Authorization');
+        //Rever se somente validar o token já basta.
+        if(token && user){
+            props.navigation.navigate('Home');
+        }
+    }
 
     const makeLogin = async () => {
         if (email === "" || !email_regex(email) || password === "") return alert('Ops algum campo esta vazio!');
         await dispatch(login({ email, password }))
-        props.navigation.navigate('Home');
+        valida();
     }
 
     return (
