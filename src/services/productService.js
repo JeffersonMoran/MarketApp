@@ -20,13 +20,13 @@ export const adicionarAoCarrinho = async (data) => {
     });
 }
 
-export const removerDoCarrinho = async (id, data) => {
+export const removerDoCarrinho = async (id) => {
+    console.log('id', id)
     return await axios(`user/remove-buy-list/product/${id}`, {
         method: "delete",
         headers: {
             "Content-type": "application/json"
-        },
-        data
+        }
     });
 }
 

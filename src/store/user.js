@@ -18,7 +18,8 @@ export const type = {
     LIST_CARRINHO: "LIST_CARRINHO",
     ADICIONA_CARRINHO: "ADICIONA_CARRINHO",
     REMOVE_CARRINHO: "REMOVE_CARRINHO",
-    PRODUTOS_MERCADOS_GET: "PRODUTOS_MERCADOS_GET"
+    PRODUTOS_MERCADOS_GET: "PRODUTOS_MERCADOS_GET",
+    LOGOUT: "LOGOUT",
 };
 
 const initialState = {
@@ -79,15 +80,16 @@ export default (userReducer = (state = initialState, action) => {
 
         case type.ADICIONA_CARRINHO:
             return {
-                ...state,
-                carrinhos: [...state.carrinhos, action.payload]
+                ...state
             };
 
         case type.REMOVE_CARRINHO:
             return {
                 ...state,
-                carrinhos: state.carrinhos.filter(product => product._id != action.payload._id)
+                carrinhos: state.carrinhos.filter(product => product._id != action.payload.product_id)
             };
+        case type.LOGOUT:
+            return initialState;
         default:
             return state;
     }
@@ -163,15 +165,15 @@ export const listaProdutosMercados = payload => async dispatch => {
 
 export const createProductCarrinho = payload => async dispatch => {
     try {
-        await productApi.adicionarProdutoCarrinho(payload);
+        await productApi.adicionarAoCarrinho(payload);
         dispatch({ type: type.ADICIONA_CARRINHO, payload });
     } catch (e) {
     }
 };
 
-export const removeProdutoCarrinho = payload => async dispatch => {
+export const rProduto = payload => async dispatch => {
     try {
-        await productApi.removeProdutoCarrinho(payload);
+        await productApi.removerDoCarrinho(payload.product_id);
         dispatch({ type: type.REMOVE_CARRINHO, payload });
     } catch (e) {
     }
@@ -180,9 +182,12 @@ export const removeProdutoCarrinho = payload => async dispatch => {
 export const listaCarrinho = payload => async dispatch => {
     try {
         const response = await userApi.listainfoCarrinho();
-        console.log('response', response)
         dispatch({ type: type.LIST_CARRINHO, payload: response.data });
     } catch (e) {
         console.log('erro', e);
     }
 };
+
+export const logoutUser = payload => async dispatch => {
+    dispatch({ type: type.LOGOUT, payload: {} });
+}

@@ -9,7 +9,7 @@ import {
     SafeAreaView
 } from 'react-native';
 import { useSelector, useDispatch } from "react-redux";
-import { listaMercados } from '../../store/user';
+import { listaMercados, logoutUser } from '../../store/user';
 
 const MercadoBox = (props) => {
     return (
@@ -45,6 +45,11 @@ const Home = (props) => {
       dispatch(listaMercados())
     }, []);
 
+    const logout = async () => {
+        dispatch(logoutUser())
+        props.navigation.navigate('Login')
+    }
+
     return (
         <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
             <View style={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
@@ -76,6 +81,9 @@ const Home = (props) => {
                     </ScrollView>
                 </View>
             </ScrollView>
+            <TouchableOpacity style={styles.boxLogout} onPress={() => logout()}>
+                <Text style={styles.boxPlusText}>-</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.boxPlus} onPress={() => props.navigation.navigate('AddProduto')}>
                 <Text style={styles.boxPlusText}>+</Text>
             </TouchableOpacity>
@@ -161,7 +169,18 @@ const styles = StyleSheet.create({
         fontSize: 30,
         lineHeight: 0,
         marginTop: -3,
-        marginLeft: 2
+        marginLeft: 0
+    },
+    boxLogout:{
+        backgroundColor: '#FE595E',
+        height: 50,
+        width: 50, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 60,
+        position: 'absolute',
+        left: 20,
+        bottom: 20
     }
 });
 
