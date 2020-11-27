@@ -88,7 +88,7 @@ const AddProduto = (props) => {
               />
             </View>
             <View>
-              <TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite o nome do preço...'}
+              <TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite o preço...'}
                 value={preco}
                 autoCapitalize='none'
                 keyboardType={Platform.OS === 'ios' ? "numeric" : "number-pad"}
