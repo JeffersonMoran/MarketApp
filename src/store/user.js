@@ -20,6 +20,7 @@ export const type = {
     REMOVE_CARRINHO: "REMOVE_CARRINHO",
     PRODUTOS_MERCADOS_GET: "PRODUTOS_MERCADOS_GET",
     LOGOUT: "LOGOUT",
+    BUSCA_PRODUTO: "BUSCA_PRODUTO"
 };
 
 const initialState = {
@@ -29,7 +30,8 @@ const initialState = {
     produtos_mercado: [],
     carrinhos: [],
     product: null,
-    user: null
+    user: null,
+    produtos_home: []
 };
 
 export default (userReducer = (state = initialState, action) => {
@@ -63,7 +65,8 @@ export default (userReducer = (state = initialState, action) => {
         case type.MERCADOS_GET:
             return {
                 ...state,
-                mercados: action.payload
+                mercados: action.payload, 
+                produtos_home: []
             };
 
         case type.PRODUTOS_MERCADOS_GET:
@@ -88,6 +91,13 @@ export default (userReducer = (state = initialState, action) => {
                 ...state,
                 carrinhos: state.carrinhos.filter(product => product._id != action.payload.product_id)
             };
+        
+        case type.BUSCA_PRODUTO:
+            return {
+                ...state,
+                produtos_home: action.payload
+            }
+
         case type.LOGOUT:
             return initialState;
         default:
@@ -191,3 +201,12 @@ export const listaCarrinho = payload => async dispatch => {
 export const logoutUser = payload => async dispatch => {
     dispatch({ type: type.LOGOUT, payload: {} });
 }
+
+export const searchProduct = payload => async dispatch => {
+    try {
+        const retorno = await productApi.searchProductApi(payload);
+        dispatch({ type: type.BUSCA_PRODUTO, payload: retorno.data });
+    } catch (e) {
+
+    }
+};

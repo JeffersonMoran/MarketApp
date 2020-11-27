@@ -37,3 +37,14 @@ export const listCarrinho = async () => {
         }
     });
 }
+
+export const searchProductApi = async (search) => {
+    const data =  await axios(`products?search=`+search, {
+        method: "get",
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
+    return data;
+    
+}

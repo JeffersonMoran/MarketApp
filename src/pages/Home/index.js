@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     StyleSheet,
     View,
@@ -6,10 +6,11 @@ import {
     TouchableOpacity,
     ScrollView,
     Image,
+    TextInput,
     SafeAreaView
 } from 'react-native';
 import { useSelector, useDispatch } from "react-redux";
-import { listaMercados, logoutUser } from '../../store/user';
+import { listaMercados, logoutUser, searchProduct } from '../../store/user';
 
 const MercadoBox = (props) => {
     return (
@@ -39,7 +40,9 @@ const MercadoCompleto = (props) => {
 const Home = (props) => {
     const user = useSelector(state => state.userReducer.user);
     const mercados = useSelector(state => state.userReducer.mercados);
+    const produtos_home = useSelector(state => state.userReducer.produtos_home);
     const dispatch = useDispatch();
+    const [busca, setBusca] = useState('');
   
     useEffect(() => { 
       dispatch(listaMercados())
@@ -50,9 +53,13 @@ const Home = (props) => {
         props.navigation.navigate('Login')
     }
 
+    const buscarProduto = async () => {
+        dispatch(searchProduct(busca))
+    }
+
     return (
         <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
-            <View style={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 10, flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ paddingHorizontal: 16, paddingTop: 16, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={{ alignItems: 'flex-start', flex: 1 }}>
                     <Text style={{ fontWeight: 'bold', color: 'gray', fontSize: 16 }}>Olá, {(user && user.name) || ""}</Text>
                 </View>
@@ -60,7 +67,30 @@ const Home = (props) => {
                     <TouchableOpacity onPress={() => props.navigation.navigate('Carrinho')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Meu carrinho</Text></TouchableOpacity>
                 </View>
             </View>
-            <ScrollView style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingBottom: 16 }}>
+            <View style={{ paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'gray'}}>
+                    <TextInput placeholder={'Buscar pelo produto...'} style={{flex: 1}} value={busca} onChangeText={text => setBusca(text)} />
+                    <TouchableOpacity onPress={() => buscarProduto()}>
+                        <Text>Filtrar</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <ScrollView style={{ flex: 1, backgroundColor: '#F6F6F6', paddingHorizontal: 16, paddingBottom: 16, paddingTop: 10 }}>
+                {produtos_home && (busca != '' && produtos_home.length > 0) && produtos_home.map((p, k) => (
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Produto', { produto: p })} style={styles.boxProduto} key={k}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                            <Image source={{ uri: p.imagem !== '' ? p.imagem : 'https://static.carrefour.com.br/medias/sys_master/images/images/h77/h44/h00/h00/26979835379742.jpg' }} style={{ width: 90, height: 80, resizeMode: 'contain' }} />
+                        </View>
+                        <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flex: 2, textAlign: 'left', paddingHorizontal: 10 }}>
+                            <View>
+                                <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 16 }}>{p.nome}</Text>
+                                <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 14 }}>{p.preco}</Text>
+                            </View>
+                            <Text style={{ textAlign: 'left', color: 'gray', marginTop: 5 }}>{p.descricao}</Text>
+                        </View>
+                    </TouchableOpacity>
+                ))}
+
                 <View style={{ marginTop: 10 }}>
                     <View><Text style={{ fontSize: 16, color: '#FE595E', fontWeight: 'bold' }}>Novos Parceiros</Text></View>
                     <ScrollView horizontal={true} style={{ marginTop: 5, paddingBottom: 10 }}>
@@ -92,6 +122,28 @@ const Home = (props) => {
 }
 
 const styles = StyleSheet.create({
+    boxProduto: {
+        marginRight: 20,
+        backgroundColor: '#FFF',
+        padding: 10,
+        width: 140,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        flexDirection: 'row',
+        marginTop: 0,
+        marginBottom: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+
+        elevation: 3,
+    },
     boxItemParceiro: {
         marginRight: 20,
         backgroundColor: '#FFF',
