@@ -73,14 +73,14 @@ const AddProduto = (props) => {
             {
               avatarSource === "" ?
                 <TouchableOpacity onPress={() => showPickerImage()} style={styles.boxImage}>
-                  <Image source={avatarSource} />
+                  <Image source={{ uri: "https://content.hostgator.com/img/weebly_image_sample.png" }} style={{ height: 250 }} />
                 </TouchableOpacity>
                 :
                 <View>
                   <Image source={{ uri: avatarSource }} style={styles.boxImage} />
                 </View>
             }
-            <View>
+            <View style={{ marginTop: 30}}>
               <TextInput style={{ height: 50, borderColor: '#ccc', borderWidth: 1, paddingHorizontal: 10, marginTop: 10, marginBottom: 5 }} placeholder={'Digite o nome do produto...'}
                 value={nome}
                 autoCapitalize='none'
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   boxImage: {
     backgroundColor: '#FE595E',
-    height: 150,
+    height: 250,
     width: '100%',
     marginTop: 10
   }
