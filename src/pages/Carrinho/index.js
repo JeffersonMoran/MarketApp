@@ -23,9 +23,13 @@ const ProdutoBox = (props) => {
                 <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flex: 2, textAlign: 'left', paddingHorizontal: 10 }}>
                     <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 16 }}>{props.produto.nome}</Text>
                     <Text style={{ textAlign: 'left', color: 'gray' }}>{props.produto.descricao}</Text>
+                    <Text style={{ textAlign: 'left', color: 'gray' }}>R$ {props.produto.preco}</Text>
                 </View>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 3 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', flex: 1 }}>
+                    <TouchableOpacity onPress={() => { alert('Produto denunciado!') }} style={{ backgroundColor: "#FE595E", width: 120, height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#FFF', fontSize: 14, fontWeight: 'normal', lineHeight: 20 }}>DENUNCIAR</Text></TouchableOpacity>
+                </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', flex: 1 }}>
                     <TouchableOpacity onPress={() => props.removeProduct(props.produto)} style={{ backgroundColor: "#FE595E", width: 120, height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#FFF', fontSize: 14, fontWeight: 'normal', lineHeight: 20 }}>REMOVER</Text></TouchableOpacity>
                 </View>
@@ -51,7 +55,7 @@ const Carrinho = (props) => {
     return (
         <SafeAreaView style={{ backgroundColor: '#F6F6F6', flex: 1 }}>
             <View style={{ paddingHorizontal: 16, paddingVertical: 16 }}>
-                <View style={{ justifyConter: 'center', alignItems: 'center' }}><Text style={{ fontSize: 20, color: '#FE595E', fontWeight: 'bold', marginBottom: 10 }}>Meu Carrinho</Text></View>
+                <View style={{ justifyConter: 'center', alignItems: 'center' }}><Text style={{ fontSize: 20, color: '#FE595E', fontWeight: 'bold', marginBottom: 10 }}>Minha Lista</Text></View>
                 <ScrollView style={{ backgroundColor: '#F6F6F6' }} showsVerticalScrollIndicator={false}>
                     {carrinhos.map((v, k) => <ProdutoBox {...props} removeProduct={(produto) => removerProduto(produto)} key={k} produto={v} />)}
                 </ScrollView>

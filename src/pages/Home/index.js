@@ -64,7 +64,7 @@ const Home = (props) => {
                     <Text style={{ fontWeight: 'bold', color: 'gray', fontSize: 16 }}>Olá, {(user && user.name) || ""}</Text>
                 </View>
                 <View style={{ alignItems: 'flex-end', flex: 1 }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate('Carrinho')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Meu carrinho</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => props.navigation.navigate('Carrinho')} style={{ alignItems: 'flex-end', width: 130, alignItems: 'center', backgroundColor: '#FE595E', paddingHorizontal: 5, paddingVertical: 5 }}><Text style={{ fontSize: 16, color: '#FFF', fontWeight: 'bold' }}>Minha Lista</Text></TouchableOpacity>
                 </View>
             </View>
             <View style={{ paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center' }}>
@@ -84,7 +84,7 @@ const Home = (props) => {
                         <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flex: 2, textAlign: 'left', paddingHorizontal: 10 }}>
                             <View>
                                 <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 16 }}>{p.nome}</Text>
-                                <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 14 }}>{p.preco}</Text>
+                                <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 14 }}>R$ {p.preco}</Text>
                             </View>
                             <Text style={{ textAlign: 'left', color: 'gray', marginTop: 5 }}>{p.descricao}</Text>
                         </View>
@@ -111,9 +111,9 @@ const Home = (props) => {
                     </ScrollView>
                 </View>
             </ScrollView>
-            <TouchableOpacity style={styles.boxLogout} onPress={() => logout()}>
+            {/* <TouchableOpacity style={styles.boxLogout} onPress={() => logout()}>
                 <Text style={styles.boxPlusText}>-</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.boxPlus} onPress={() => props.navigation.navigate('AddProduto')}>
                 <Text style={styles.boxPlusText}>+</Text>
             </TouchableOpacity>

@@ -20,7 +20,7 @@ const Produto = (props) => {
     await dispatch(createProductCarrinho({ product_id: produto._id }))
     alert('Produto adicionado com sucesso!');
   }
-  
+
   return (
     <SafeAreaView style={{ backgroundColor: '#FFF', flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: '#FFF', paddingHorizontal: 16, paddingVertical: 16 }}>
@@ -28,9 +28,13 @@ const Produto = (props) => {
           <View style={{ backgroundColor: 'white' }}><Image source={{ uri: produto.imagem }} style={{ width: '100%', height: 250, resizeMode: 'contain' }} /></View>
           <View><Text style={{ fontSize: 20, color: '#FE595E', fontWeight: 'bold', marginTop: 10 }}>{produto.nome}</Text></View>
           <View><Text style={{ fontSize: 16, marginTop: 5, color: '#8e8e8e' }}>{produto.descricao}</Text></View>
+          <View><Text style={{ fontSize: 16, marginTop: 5, color: '#8e8e8e' }}>R$ {produto.preco}</Text></View>
           <View style={{ flexDirection: 'row', marginTop: 20 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', flex: 1 }}>
               <TouchableOpacity style={{ backgroundColor: "green", width: 160, height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }} onPress={() => adicionarProduto()}><Text style={{ color: '#FFF', fontSize: 16, lineHeight: 20 }}>ADICIONAR</Text></TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', flex: 1 }}>
+              <TouchableOpacity onPress={() => { alert('Produto denunciado!') }} style={{ backgroundColor: "#FE595E", width: 120, height: 40, display: 'flex', justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: '#FFF', fontSize: 14, fontWeight: 'normal', lineHeight: 20 }}>DENUNCIAR</Text></TouchableOpacity>
             </View>
           </View>
         </View>

@@ -24,7 +24,7 @@ const ProdutoBox = (props) => {
       <View style={{ justifyContent: 'flex-start', alignItems: 'flex-start', flex: 2, textAlign: 'left', paddingHorizontal: 10 }}>
         <View>
           <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 16 }}>{produto.nome}</Text>
-          <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 14 }}>{produto.preco}</Text>
+          <Text style={{ textAlign: 'left', fontWeight: 'bold', color: 'gray', fontSize: 14 }}>R$ {produto.preco}</Text>
         </View>
         <Text style={{ textAlign: 'left', color: 'gray', marginTop: 5 }}>{produto.descricao}</Text>
       </View>
